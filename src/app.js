@@ -1,8 +1,9 @@
-const { urlencoded } = require("body-parser");
 const express = require("express"),
   hbs = require("express-handlebars"),
   path = require("path"),
-  bodyparser = require("body-parser");
+  bodyparser = require("body-parser"),
+  hoinghiR = require("./resources/routers/hoinghi.r"),
+  phanhoiR = require("./resources/routers/phanhoi.r");
 (app = express()), (port = 3000);
 app.use(bodyparser.urlencoded({ extended: true }));
 
@@ -21,20 +22,22 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.render("home", { title: "MVC" });
 });
-app.post("/signup", (req, res) => {
-  res.render("signup");
-});
-app.post("/response", (req, res) => {
-  const name = req.body.name,
-    email = req.body.email,
-    phone = req.body.phone;
+// app.post("/signup", (req, res) => {
+//   res.render("signup");
+// });
+app.use("/signup", hoinghiR);
+app.use("/response", phanhoiR);
+// app.post("/response", (req, res) => {
+//   const name = req.body.name,
+//     email = req.body.email,
+//     phone = req.body.phone;
 
-  res.render("response", {
-    name: name,
-    mail: email,
-    phone: phone,
-  });
-});
+//   res.render("response", {
+//     name: name,
+//     mail: email,
+//     phone: phone,
+//   });
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
